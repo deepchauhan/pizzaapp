@@ -99,35 +99,57 @@ const Cart=(props)=> {
               <div className="min-h-500">
               <Card.Title>{data.id}</Card.Title>
               </div>
-                <div>SIZE
-                <p className="fz-20">REGULAR PIZZA {data.reg}</p>
-                <Button id="regular" onClick={() => add(idx,"reg")}>ADD</Button>
-                <Button id="regular" onClick={()=> remove(idx,"reg")} >REMOVE</Button>
-                <h2>MEDIUM {data.med}</h2>
-                <Button id="medium" onClick={() => add(idx,"med")}>ADD</Button>
-                <Button id="medium" onClick={()=> remove(idx,"med")} >REMOVE</Button>
-                <h2>LARGE {data.lar}</h2>
-                <Button id="medium" onClick={() => add(idx,"lar")}>ADD</Button>
-                <Button id="medium" onClick={()=> remove(idx,"lar")} >REMOVE</Button>
+                <div>AVAILAIBLE SIZE IF ANY
 
+                  {data.reg?(<div>                
+                    <p className="fz-20">REGULAR PIZZA {data.reg}</p>
+                     <Button id="regular" onClick={() => add(idx,"reg")}>ADD</Button>
+                     <Button id="regular" onClick={()=> remove(idx,"reg")} >REMOVE</Button>
+                    </div>):(<div></div>)}
+
+                    {data.med?(<div> 
+                      <h2>MEDIUM {data.med}</h2>
+                      <Button id="medium" onClick={() => add(idx,"med")}>ADD</Button>
+                      <Button id="medium" onClick={()=> remove(idx,"med")} >REMOVE</Button>
+                      </div>):(<div></div>)}
+
+                    {data.lar?(<div>
+                      <h2>LARGE {data.lar}</h2>
+                      <Button id="medium" onClick={() => add(idx,"lar")}>ADD</Button>
+                      <Button id="medium" onClick={()=> remove(idx,"lar")} >REMOVE</Button>
+                </div>):(<div></div>)}
                 </div>
-                <div>TOPPINGS
+
+                <div>TOPPINGS AVAILAIBLE IF ANY
+                {data.redpep?(<div>
                 <h1>RED PEPPER {data.redpep}</h1>
                 <Button id="redpep" onClick={() => add(idx,"redpep")}>ADD</Button>
                 <Button id="redpep" onClick={()=> remove(idx,"redpep")} >REMOVE</Button>
+                </div>):(<div></div>)}
+
+                {data.onions?(<div> 
                 <h2>ONIONS {data.onions}</h2>
                 <Button id="onions" onClick={() => add(idx,"onions")}>ADD</Button>
                 <Button id="onions" onClick={()=> remove(idx,"onions")} >REMOVE</Button>
+                </div>):(<div></div>)}
+
+                {data.grmush?(<div> 
                 <h2>GRILLED MUSHROOM {data.grmush}</h2>
                 <Button id="mushroom" onClick={() => add(idx,"grmush")}>ADD</Button>
                 <Button id="mushroom" onClick={()=> remove(idx,"grmush")} >REMOVE</Button>
+                </div>):(<div></div>)}
+
+                {data.excheese?(<div> 
                 <h2>EXTRA CHEESE {data.excheese}</h2>
                 <Button id="onions" onClick={() => add(idx,"excheese")}>ADD</Button>
                 <Button id="onions" onClick={()=> remove(idx,"excheese")} >REMOVE</Button>
-                <h2>BLACK OLIVE {data.blolive}</h2>
+                </div>):(<div></div>)}
+
+                {data.blolive?(<div> 
+                  <h2>BLACK OLIVE {data.blolive}</h2>
                 <Button id="mushroom" onClick={() => add(idx,"blolive")}>ADD</Button>
                 <Button id="mushroom" onClick={()=> remove(idx,"blolive")} >REMOVE</Button>
-
+                </div>):(<div></div>)}
                 </div>
             </Card.Body>
           </Card>)})}

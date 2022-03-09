@@ -8,7 +8,7 @@ import React from 'react';
 import './PlaceItem.css';
 import './PlaceList.css';
 import Axios from 'axios';
-import {Modal,Button,Card} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
     Grid,

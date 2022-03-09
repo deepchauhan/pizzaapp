@@ -1,15 +1,6 @@
 import React from 'react';
 import './Header.css';
 import './backg.css'
-import {
-  MDBNavbar,
-  MDBNavbarNav,
-  MDBNavbarItem,
-  MDBNavbarLink,
-  MDBNavbarToggler,
-  MDBContainer,
-  MDBIcon
-} from 'mdb-react-ui-kit';
 
 export default function Header(props) {
   return (
