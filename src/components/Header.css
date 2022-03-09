@@ -1,0 +1,55 @@
+.header {
+    overflow: hidden;
+    padding: 20px 10px;
+    background-image: url("https://images.pexels.com/photos/5553607/pexels-photo-5553607.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .header a {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 25px;
+    border-radius: 4px;
+  }
+  
+  
+  .header a.logo {
+    font-size: 25px;
+    font-weight: bold;
+  }
+  
+
+  .header a:hover {
+    background-color: rgb(212, 111, 111);
+    color: black;
+  }
+  
+
+  .header a.active {
+    background-color: dodgerblue;
+    color: rgb(224, 160, 160);
+  }
+  
+
+  .header-right {
+    float: right;
+  }
+  
+  
+  @media screen and (max-width: 500px) {
+    .header a {
+      float: none;
+      display: block;
+      text-align: left;
+    }
+    .header-right {
+      float: none;
+    }
+  }
