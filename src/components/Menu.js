@@ -1,14 +1,19 @@
 import  { useState, useEffect, useCallback } from 'react';
 import './Menu.scss';
+import './Menu.css';
 import Header from './Header';
 import Popup from './Popup';
 import Cart from './Cart';
 import ReactStars from "react-rating-stars-component";
 import React from 'react';
+import Switch from '@mui/material/Switch';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import './PlaceItem.css';
 import './PlaceList.css';
 import Axios from 'axios';
 import {Button} from 'react-bootstrap';
+import { BsCartFill } from 'react-icons/bs';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
     Grid,
@@ -31,7 +36,11 @@ const Menu=()=>{
     const [olive,setolive] = useState(0);
     const [large,setlarge] = useState(0);
     const [name,curname]=useState('');
+    const [value, setValue] = useState(false);
+    const [vegValue,setVegValue] = useState(false);
     const [cartModal,setCartModal] = useState(false);
+    const [price,setPrice] = useState(false);
+    const [rating,setRating] = useState(false);
     
 
     const toggleModal = (e) => {
@@ -109,6 +118,7 @@ const Menu=()=>{
         setmushroom(0);
         setcheese(0);
         setolive(0);
+        setdisabledd(false);
 
     }
 
@@ -125,56 +135,123 @@ const Menu=()=>{
     const [search, setSearch] = useState('');
 
 
-    const  b= useCallback((idToSearch)=> {
-        console.log(idToSearch.id);
-        const result= data.filter(item => {
-          return item.id == idToSearch.id
-        })
-        return(result);
-      },[toggleModal]);
     
     const changePrice=(e)=>{
-        const result = data.filter((user)=>{
-            return user.price<e.target.value;
-        });
-        setFilter(result);
+        const eitherSort = (arr = []) => {
+            const sorter = (a, b) => {
+               return +a.price - +b.price;
+            };
+            arr.sort(sorter);
+         };
+         eitherSort(data);
+         setFilter(data);
+         setPrice(!price);
 
     }
 
+    const changeRating=()=>{
+        const eitherSort = (arr = []) => {
+            const sorter = (a, b) => {
+               return +b.rating - +a.rating;
+            };
+            arr.sort(sorter);
+         };
+         eitherSort(data);
+         setFilter(data);
+         setRating(!rating);
+    }
 
-    const changeFilter=(e)=>{
-        setSearch(e.target.value);
-        const keyword=e.target.value;
-        if (keyword!==''){
-        const result=data.filter((user)=>{
-            console.log(keyword);
-            return user.rating<keyword;
-        });
-        console.log(result);
-        setFilter(result);}
+    const veg=()=>{
+        if(value){
+            const result=data.filter((user)=>{
+                return user.isVeg
+            });
+        
+        setFilter(result)
+        }
         else{
             setFilter(data);
-
         }
+
+        setValue(!value);
     }
+
+    const nonVeg=()=>{
+        if(vegValue){
+            const result=data.filter((user)=>{
+                return !user.isVeg
+            });
+        
+        setFilter(result)
+        }
+        else{
+            setFilter(data);
+        }
+
+        setVegValue(!vegValue);
+    }
+
+    
 
     if (data){
         return(<React.Fragment>
-          <Header cart={<Button onClick={cartMod} >CART</Button>} />
+              <style type="text/css">
+    {`
+    .btn-flat {
+        color: #0a0808;
+        background-color: #f5f5f5;
+        border-color: #f7d205;
+    }
+    .btn-flat:hover {
+        color: white;
+        background-color: #f8722a;
+        border-color: #5b288e;
+    }
+
+    `}</style>
+          <Header cart={<Button variant="flat" onClick={cartMod} ><BsCartFill/>CART</Button>} />
             <div>
-                <div>this is division</div>
-            <input
-        type="search"
-        onChange={changeFilter}
-        className="input"
-        placeholder="Filter"
-      /> 
-             <input
-        type="search"
-        onChange={changePrice}
-        className="input"
-        placeholder="Filter"
-      /> 
+            <div>
+          <FormGroup>
+            <FormControlLabel control={            
+                <Switch
+                checked={rating}
+                onChange={changeRating}
+                inputProps={{ 'aria-label': 'controlled' }}
+                />} label="SORT BY RATING" />
+        </FormGroup>
+        </div>
+            <div>
+          <FormGroup>
+            <FormControlLabel control={            
+                <Switch
+                checked={price}
+                onChange={changePrice}
+                inputProps={{ 'aria-label': 'controlled' }}
+                />} label="SORT BY PRICE" />
+        </FormGroup>
+        </div>
+      <div>
+          <FormGroup>
+            <FormControlLabel control={            
+                <Switch
+                checked={value}
+                onChange={veg}
+                inputProps={{ 'aria-label': 'controlled' }}
+                />} label="VEG" />
+        </FormGroup>
+        </div>
+        <div>
+          <FormGroup>
+            <FormControlLabel control={            
+                <Switch
+                checked={vegValue}
+                onChange={nonVeg}
+                inputProps={{ 'aria-label': 'controlled' }}
+                />} label="NON-VEG" />
+        </FormGroup>
+        </div>
+
       <div >
       {cartModal &&(<Cart
                       items={cart}
@@ -186,9 +263,9 @@ const Menu=()=>{
 
       </div>
             </div>
-            <div >
+            <div  >
             <div className="wrapper">
-                    {search==='' ?(data.map(dataa => (
+                    {(search==='')&&(!value) ?(data.map(dataa => (
                         
                                 <div className="card">
 
@@ -213,26 +290,26 @@ const Menu=()=>{
                                     />
                                     </div>
                                     </div>
-                                        <Button variant="outline-primary" id={dataa.id} onClick={toggleModal}> + ADD ADDONS + </Button>
+                                        <Button  variant="flat" id={dataa.id} onClick={toggleModal}> + ADD ADDONS + </Button>
                                         {modal && (<Popup 
                                             id={id}
                                             modal={modal}
-                                            size={ <div>
-                                                <Button className="bg-danger mx-3" id="regular"  onClick={add}    >ADD REGULAR</Button>
-                                                <Button className="bg-danger mx-3" id="medium"   onClick={add}   >ADD MEDIUM</Button>
-                                                <Button className="bg-danger mx-3" id="large"    onClick={add}    >ADD LARGE</Button>
+                                            size={ <div >
+                                                <Button className="mx-3 my-2" variant="outline-primary" size='sm' id="regular"  onClick={add}    >ADD REGULAR</Button>
+                                                <Button className="mx-3 my-2" variant="outline-primary" size='sm' id="medium"   onClick={add}   >ADD MEDIUM</Button>
+                                                <Button className="mx-3 my-2" variant="outline-primary" size='sm' id="large"    onClick={add}    >ADD LARGE</Button>
                                                 </div>}
                                             onCancel={tt}
                                             footer={<Button id={dataa.id} onClick={tt}>CLOSE</Button>}
-                                            toppings={ <div>
-                                                <Button id="redpep"      onClick={addToppings}   disabled={disabledd}    >ADD RED PEPPER</Button>
+                                            toppings={ <div style={{width:"100%"}}>
+                                                <Button id="redpep" onClick={addToppings} className="mx-3 my-2 text-center" variant="outline-success" size='sm'   disabled={disabledd} style={{width:"90%"}}>ADD RED PEPPER</Button>
                                                 <br></br>
-                                                <Button id="onions"       onClick={addToppings}  disabled={disabledd}    >ADD ONIONS</Button>
+                                                <Button id="onions"       onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'  disabled={disabledd} style={{width:"90%"}}>ADD ONIONS</Button>
                                                 <br></br>
-                                                <Button id="grmush"      onClick={addToppings}    disabled={disabledd}    >ADD GRILLED MUSHROOMS</Button>
+                                                <Button id="grmush"      onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'    disabled={disabledd} style={{width:"90%"}}>ADD GRILLED MUSHROOMS</Button>
                                                 <br></br>
-                                                <Button id="excheese"    onClick={addToppings}    disabled={disabledd}     >ADD EXTRA CHEESE</Button><br></br>
-                                                <Button id="blolive"     onClick={addToppings}    disabled={disabledd}    >ADD BLACK OLIVE</Button>
+                                                <Button id="excheese"    onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'    disabled={disabledd} style={{width:"90%"}} >ADD EXTRA CHEESE</Button><br></br>
+                                                <Button id="blolive"     onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'    disabled={disabledd} style={{width:"90%"}}>ADD BLACK OLIVE</Button>
                                                 </div>}                                     
                                         />)}
                                         

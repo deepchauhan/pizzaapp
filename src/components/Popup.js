@@ -6,9 +6,9 @@ const Popup=(props)=> {
 
   return (
     <>
-      <Modal show={props.modal} fullscreen={'lg-down'} onHide={props.onCancel} centered>
+<Modal style={{ background: "linear-gradient(#e66465, #9198e5)" }} show={props.modal} fullscreen={'lg-down'} onHide={props.onCancel} centered>
         <Modal.Header closeButton>
-          <Modal.Title>A FEW ADD-ONS CAN'T BE THAT BAD</Modal.Title>
+          <Modal.Title><em className='text-success'>A FEW ADD-ONS CAN'T BE THAT BAD </em></Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <div>

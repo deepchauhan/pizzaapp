@@ -1,7 +1,7 @@
 .header {
     overflow: hidden;
     padding: 20px 10px;
-    background-image: url("https://images.pexels.com/photos/5553607/pexels-photo-5553607.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+    background-image: src("./deep.jpg");
     height: 100vh;
     background-position: center;
     background-repeat: no-repeat;
