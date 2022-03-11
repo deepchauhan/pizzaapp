@@ -1,10 +1,10 @@
-import  { useState, useEffect, useCallback } from 'react';
+import  { useState,  useCallback } from 'react';
 import {Modal,Button,Card,Row} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Cart.css';
 
 const Cart=(props)=> {
-  const [arr,setarr]=useState(props.items)
+  const [arr,setarr]=useState(props.items);
   const add=useCallback((idx,x)=>{
     console.log(idx,x);
     if (x==="reg"){
@@ -12,7 +12,7 @@ const Cart=(props)=> {
     if(x==="med"){
       arr[idx].med+=1
     }
-    if(x==="lar"){
+    if(x==="lar"){ 
       arr[idx].lar+=1
     }
     if (x==="redpep"){
@@ -82,21 +82,21 @@ const Cart=(props)=> {
 
 
 
-
   return (
     <>
-      {props.items?(
+      
               <Modal show={props.show} fullscreen={true} onHide={props.onCancel} centered={true}>
               <Modal.Header closeButton>
-                <Modal.Title>MY PIZZA CART</Modal.Title>
+                <Modal.Title className="tt">MY PIZZA CART</Modal.Title>
               </Modal.Header>
+              {(props.items.length!==0)?(
               
               <Modal.Body className="bgg">
               <Row xs={1} md={2} className="g-4 justify-content-around">
               { arr.map((data,idx)=>{
                 return(
                 
-                <Card border="dark" className="mx-2 shadow-lg" style={{ width: '18rem' }} key={data.id}>
+                <Card border="dark" className="mx-2 shadow-lg border-0" style={{ width: '22rem' }} key={data.id}>
                   <Card.Body>
                     <div className='bg-warning rounded pt-2 pb-2'>
                     <Card.Title className='text-light '><b>{data.id}</b></Card.Title>
@@ -173,9 +173,9 @@ const Cart=(props)=> {
                   </Card.Body>
                 </Card>)})}
                 </Row>
-              </Modal.Body>
+              </Modal.Body>):(<Modal.Body className="bgg_2">YOUR CART IS EMPTY</Modal.Body>)}
             </Modal>
-      ):(<h1>NO ITEMS IN CART</h1>)}
+      
 
     </>
   );

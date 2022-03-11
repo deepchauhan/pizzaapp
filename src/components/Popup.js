@@ -1,14 +1,15 @@
-import  { useState, useEffect, useCallback } from 'react';
-import {Modal,Button} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './Popup.css';
+import './Cart.css';
 
 const Popup=(props)=> {
 
   return (
     <>
-<Modal style={{ background: "linear-gradient(#e66465, #9198e5)" }} show={props.modal} fullscreen={'lg-down'} onHide={props.onCancel} centered>
+<Modal className='bgg' show={props.modal} fullscreen={'lg-down'} onHide={props.onCancel} centered>
         <Modal.Header closeButton>
-          <Modal.Title><em className='text-success'>A FEW ADD-ONS CAN'T BE THAT BAD </em></Modal.Title>
+          <Modal.Title><p className='titlee'>MAKE IT BETTER </p></Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <div>

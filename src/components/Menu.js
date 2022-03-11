@@ -1,10 +1,10 @@
-import  { useState, useEffect, useCallback } from 'react';
+import  { useState, useEffect } from 'react';
 import './Menu.scss';
 import './Menu.css';
 import Header from './Header';
 import Popup from './Popup';
 import Cart from './Cart';
-import ReactStars from "react-rating-stars-component";
+import ReactStars from 'react-stars'
 import React from 'react';
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
@@ -15,10 +15,6 @@ import Axios from 'axios';
 import {Button} from 'react-bootstrap';
 import { BsCartFill } from 'react-icons/bs';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {
-    Grid,
-
-} from '@material-ui/core/';
 const Menu=()=>{
     const url="https://run.mocky.io/v3/ec196a02-aaf4-4c91-8f54-21e72f241b68";
     const [data,setData] = useState([]);
@@ -41,11 +37,11 @@ const Menu=()=>{
     const [cartModal,setCartModal] = useState(false);
     const [price,setPrice] = useState(false);
     const [rating,setRating] = useState(false);
+    const [filter,setFilter] = useState(data);
     
 
     const toggleModal = (e) => {
         const ii = e.currentTarget.id;
-        console.log(e.currentTarget.id);
         const result= data.filter(item => {
           return item.id == e.currentTarget.id
         })
@@ -60,9 +56,6 @@ const Menu=()=>{
     }
 
     const add=(e)=>{
-
-        
-
         if (e.target.id==="regular"){
             setregular(regular+1);
         }
@@ -72,9 +65,6 @@ const Menu=()=>{
         if(e.target.id==="medium"){
             setlarge(large+1);
         }
-
-
-
     }
 
     const addToppings=(e)=>{
@@ -98,18 +88,19 @@ const Menu=()=>{
 
 
     }
-
-
-
-
     const tt=(e)=>{
 
-        const obj = {id:name , reg:regular , med:medium , lar:large ,redpep:redpepper, onions:onion, grmush:mushroom, excheese:cheese, blolive:olive }
-
+        const obj = {id:name , 
+                    reg:regular , 
+                    med:medium , 
+                    lar:large ,
+                    redpep:redpepper, 
+                    onions:onion, 
+                    grmush:mushroom, 
+                    excheese:cheese, 
+                    blolive:olive }
         setCart([...cart,obj]);
-
         setModal(!modal);
-
         setregular(0);
         setmedium(0);
         setlarge(0);
@@ -130,13 +121,8 @@ const Menu=()=>{
             }
         )
     },[url])
-
-    const [filter,setFilter] = useState(data);
-    const [search, setSearch] = useState('');
-
-
-    
-    const changePrice=(e)=>{
+  
+    const changePrice=()=>{
         const eitherSort = (arr = []) => {
             const sorter = (a, b) => {
                return +a.price - +b.price;
@@ -146,7 +132,6 @@ const Menu=()=>{
          eitherSort(data);
          setFilter(data);
          setPrice(!price);
-
     }
 
     const changeRating=()=>{
@@ -162,7 +147,7 @@ const Menu=()=>{
     }
 
     const veg=()=>{
-        if(value){
+        if(!value){
             const result=data.filter((user)=>{
                 return user.isVeg
             });
@@ -177,13 +162,16 @@ const Menu=()=>{
     }
 
     const nonVeg=()=>{
-        if(vegValue){
+        if(!vegValue){
             const result=data.filter((user)=>{
                 return !user.isVeg
             });
+        console.log(result);
         
-        setFilter(result)
+        setFilter(result);
         }
+        
+
         else{
             setFilter(data);
         }
@@ -198,6 +186,7 @@ const Menu=()=>{
               <style type="text/css">
     {`
     .btn-flat {
+        margin-right:10px;
         color: #0a0808;
         background-color: #f5f5f5;
         border-color: #f7d205;
@@ -209,37 +198,37 @@ const Menu=()=>{
     }
 
     `}</style>
-          <Header cart={<Button variant="flat" onClick={cartMod} ><BsCartFill/>CART</Button>} />
-            <div>
-            <div>
+    <Header cart={<Button className="mr-10 p-3" variant="flat" onClick={cartMod} ><BsCartFill/> CART</Button>} />
+    <div>
+        <div>
           <FormGroup>
             <FormControlLabel control={            
                 <Switch
-                checked={rating}
-                onChange={changeRating}
-                inputProps={{ 'aria-label': 'controlled' }}
-                />} label="SORT BY RATING" />
-        </FormGroup>
+                    checked={rating}
+                    onChange={changeRating}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    />} label="SORT BY RATING" />
+          </FormGroup>
         </div>
             <div>
           <FormGroup>
             <FormControlLabel control={            
                 <Switch
-                checked={price}
-                onChange={changePrice}
-                inputProps={{ 'aria-label': 'controlled' }}
-                />} label="SORT BY PRICE" />
-        </FormGroup>
-        </div>
-      <div>
-          <FormGroup>
-            <FormControlLabel control={            
-                <Switch
-                checked={value}
-                onChange={veg}
-                inputProps={{ 'aria-label': 'controlled' }}
-                />} label="VEG" />
-        </FormGroup>
+                    checked={price}
+                    onChange={changePrice}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    />} label="SORT BY PRICE" />
+          </FormGroup>
+            </div>
+            <div>
+            <FormGroup>
+                <FormControlLabel control={            
+                    <Switch
+                        checked={value}
+                        onChange={veg}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                        />} label="VEG" />
+            </FormGroup>
         </div>
         <div>
           <FormGroup>
@@ -249,7 +238,7 @@ const Menu=()=>{
                 onChange={nonVeg}
                 inputProps={{ 'aria-label': 'controlled' }}
                 />} label="NON-VEG" />
-        </FormGroup>
+          </FormGroup>
         </div>
 
       <div >
@@ -257,37 +246,29 @@ const Menu=()=>{
                       items={cart}
                       show={cartModal}
                       onCancel={cartMod}
-      
-      
+  
       />)}
 
       </div>
             </div>
             <div  >
             <div className="wrapper">
-                    {(search==='')&&(!value) ?(data.map(dataa => (
-                        
+                    {(!value) &&(!rating) &&(!price)&&(!vegValue) ?(data.map(dataa => (                     
                                 <div className="card">
-
-                                    <img src={dataa.img_url} className="card__img" />
+                                    <img src={dataa.img_url} className="card__img" alt={dataa.name} />
                                     <div className="card__body" id={dataa.id}>
-                                    <h2 className="card__title">{dataa.name}</h2>
+                                    <h2 className="card__title"  >{dataa.name}</h2>
                                     <p className="card__description">{dataa.description}</p>
                                     <h3 className="card__price">{dataa.price}</h3>
+                                    {dataa.isVeg?(<h2 className="card__type"  >VEG</h2>):(<h2 className="card__type">NON-VEG</h2>)}
                                     <div className="card__title">
                                     <div className="card__stars">
                                     <ReactStars
-                                           count={6}                                         
-                                           size={20}
-                                           value={dataa.rating}
-                                           isHalf={true}
-                                           edit={false}
-                                           emptyIcon={<i className="far fa-star"></i>}
-                                           halfIcon={<i className="fa fa-star-half-alt"></i>}
-                                           fullIcon={<i className="fa fa-star"></i>}
-                                           activeColor="#ffd700"
-                                        
-                                    />
+                                            count={6}
+                                            value={dataa.rating}
+                                            size={24}
+                                            edit={false}
+                                            color2={'#ffd700'} />
                                     </div>
                                     </div>
                                         <Button  variant="flat" id={dataa.id} onClick={toggleModal}> + ADD ADDONS + </Button>
@@ -295,50 +276,75 @@ const Menu=()=>{
                                             id={id}
                                             modal={modal}
                                             size={ <div >
-                                                <Button className="mx-3 my-2" variant="outline-primary" size='sm' id="regular"  onClick={add}    >ADD REGULAR</Button>
-                                                <Button className="mx-3 my-2" variant="outline-primary" size='sm' id="medium"   onClick={add}   >ADD MEDIUM</Button>
-                                                <Button className="mx-3 my-2" variant="outline-primary" size='sm' id="large"    onClick={add}    >ADD LARGE</Button>
+                                                <Button className="mx-3 my-4" variant="outline-primary" size='sm' id="regular"  onClick={add}    >ADD REGULAR</Button>
+                                                <Button className="mx-3 my-4" variant="outline-primary" size='sm' id="medium"   onClick={add}   >ADD MEDIUM</Button>
+                                                <Button className="mx-3 my-4" variant="outline-primary" size='sm' id="large"    onClick={add}    >ADD LARGE</Button>
                                                 </div>}
                                             onCancel={tt}
                                             footer={<Button id={dataa.id} onClick={tt}>CLOSE</Button>}
                                             toppings={ <div style={{width:"100%"}}>
-                                                <Button id="redpep" onClick={addToppings} className="mx-3 my-2 text-center" variant="outline-success" size='sm'   disabled={disabledd} style={{width:"90%"}}>ADD RED PEPPER</Button>
+                                                <Button id="redpep"    onClick={addToppings} className="mx-3 my-2 text-center" variant="outline-success" size='sm'   disabled={disabledd} style={{width:"90%"}}>ADD RED PEPPER</Button>
                                                 <br></br>
-                                                <Button id="onions"       onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'  disabled={disabledd} style={{width:"90%"}}>ADD ONIONS</Button>
+                                                <Button id="onions"     onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'  disabled={disabledd} style={{width:"90%"}}>ADD ONIONS</Button>
                                                 <br></br>
-                                                <Button id="grmush"      onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'    disabled={disabledd} style={{width:"90%"}}>ADD GRILLED MUSHROOMS</Button>
+                                                <Button id="grmush"     onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'    disabled={disabledd} style={{width:"90%"}}>ADD GRILLED MUSHROOMS</Button>
                                                 <br></br>
-                                                <Button id="excheese"    onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'    disabled={disabledd} style={{width:"90%"}} >ADD EXTRA CHEESE</Button><br></br>
-                                                <Button id="blolive"     onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'    disabled={disabledd} style={{width:"90%"}}>ADD BLACK OLIVE</Button>
+                                                <Button id="excheese"   onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'    disabled={disabledd} style={{width:"90%"}} >ADD EXTRA CHEESE</Button><br></br>
+                                                <Button id="blolive"    onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'    disabled={disabledd} style={{width:"90%"}}>ADD BLACK OLIVE</Button>
                                                 </div>}                                     
                                         />)}
                                         
                                     </div>
                                 </div>
-
-                            
-
-
-
-                        
-                    ))):(filter.map(user => (
-                        <Grid item xs={12} sm={6} md={4} key={user.id}>
-                            <h1>filtered result</h1>
-                        </Grid>
+                    ))):(filter.map(dataa => (
+                            <div className="card">
+                                    <img src={dataa.img_url} className="card__img" alt={dataa.name} />
+                                    <div className="card__body" id={dataa.id}>
+                                    <h2 className="card__title"  >{dataa.name}</h2>
+                                    <p className="card__description">{dataa.description}</p>
+                                    <h3 className="card__price">{dataa.price}</h3>
+                                    {dataa.isVeg?(<h2 className="card__type"  >VEG</h2>):(<h2 className="card__type">NON-VEG</h2>)}
+                                    <div className="card__title">
+                                    <div className="card__stars">
+                                    <ReactStars
+                                            count={6}
+                                            value={dataa.rating}
+                                            size={24}
+                                            edit={false}
+                                            color2={'#ffd700'} />
+                                    </div>
+                                    </div>
+                                        <Button  variant="flat" id={dataa.id} onClick={toggleModal}> + ADD ADDONS + </Button>
+                                        {modal && (<Popup 
+                                            id={id}
+                                            modal={modal}
+                                            size={ <div >
+                                                <Button className="mx-3 my-4" variant="outline-primary" size='sm' id="regular"  onClick={add}    >ADD REGULAR</Button>
+                                                <Button className="mx-3 my-4" variant="outline-primary" size='sm' id="medium"   onClick={add}   >ADD MEDIUM</Button>
+                                                <Button className="mx-3 my-4" variant="outline-primary" size='sm' id="large"    onClick={add}    >ADD LARGE</Button>
+                                                </div>}
+                                            onCancel={tt}
+                                            footer={<Button id={dataa.id} onClick={tt}>CLOSE</Button>}
+                                            toppings={ <div style={{width:"100%"}}>
+                                                <Button id="redpep"    onClick={addToppings} className="mx-3 my-2 text-center" variant="outline-success" size='sm'   disabled={disabledd} style={{width:"90%"}}>ADD RED PEPPER</Button>
+                                                <br></br>
+                                                <Button id="onions"     onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'  disabled={disabledd} style={{width:"90%"}}>ADD ONIONS</Button>
+                                                <br></br>
+                                                <Button id="grmush"     onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'    disabled={disabledd} style={{width:"90%"}}>ADD GRILLED MUSHROOMS</Button>
+                                                <br></br>
+                                                <Button id="excheese"   onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'    disabled={disabledd} style={{width:"90%"}} >ADD EXTRA CHEESE</Button><br></br>
+                                                <Button id="blolive"    onClick={addToppings} className="mx-3 my-2" variant="outline-success" size='sm'    disabled={disabledd} style={{width:"90%"}}>ADD BLACK OLIVE</Button>
+                                                </div>}                                     
+                                        />)}
+                                        
+                                    </div>
+                                </div>
                     )))}
                 </div>
 </div>
-    
-
-
-
-
 </React.Fragment>
 )
-
     }
-    return (<div></div>)
-
 };
 
 export default Menu;

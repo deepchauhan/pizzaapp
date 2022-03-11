@@ -4,4 +4,19 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    color:#494949;
 }
+.bgg_2{
+    background-image: url("./Deep\ BG\ yellow.jpg");
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-size:30px;
+    text-align:center;
+    font-weight:600;
+    color:#494949;
+}
+
+
+

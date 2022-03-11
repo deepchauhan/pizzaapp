@@ -1,7 +1,6 @@
 .header {
     overflow: hidden;
     padding: 20px 10px;
-    background-image: src("./deep.jpg");
     height: 100vh;
     background-position: center;
     background-repeat: no-repeat;
